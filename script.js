@@ -5,6 +5,8 @@ const slot2 = document.querySelector("#slot2");
 const slot3 = document.querySelector("#slot3");
 const slot4 = document.querySelector("#slot4");
 
+let moveSaver = 0;
+
 slot1.addEventListener("click", function () {
   if (mainTree === 0) {
     slot1.textContent = user[currentUP].move1name;
@@ -15,9 +17,13 @@ slot1.addEventListener("click", function () {
     description.textContent = "";
     mainTree = 1;
   } else if (mainTree === 1) {
-    powerSaver = 1;
-
-    user[currentUP].move1();
+    if (user[currentUP].speed >= cpu[currentCP].speed) {
+      user[currentUP].move1;
+      console.log("me");
+    } else {
+      moveSaver = user[currentUP].move1;
+      cpuMoveSelect();
+    }
   } else if (mainTree === 2) {
     currentUserPokemon = 0;
     console.log(`send out ${userPokemon[currentUserPokemon].name}`);
@@ -85,17 +91,31 @@ slot4.addEventListener("click", function () {
   }
 });
 
+let randomNum = 0;
+
+let cpuMoveSelect = function () {
+  turnCount = 1;
+  randomNum = Math.floor(Math.random() * 100);
+  console.log(randomNum);
+  if (randomNum <= 25) {
+    cpu[currentCP].move1();
+  } else if (randomNum <= 50) {
+    cpu[currentCP].move2();
+  } else if (randomNum <= 75) {
+    cpu[currentCP].move3();
+  } else if (randomNum <= 100) {
+    cpu[currentCP].move4();
+  }
+};
+
 let calculate = {
   damageCalc: function (power, acc, mT, type) {
-    console.log(
-      `${turn[turnCount][currentUP].name} used ${turn[turnCount][currentUP].move1name}`
-    );
     this.accuracyCalc(acc);
     this.effectivenessCalc(mT, type);
     damage = power * effectiveness * hit;
     console.log(`damage is ${damage}`);
-    this.damageCPU();
-    turnCount === 0 ? console.log("damage CPU") : console.log("damage user");
+
+    turnCount === 0 ? this.damageCPU() : this.damageUser();
   },
 
   effectivenessCalc: function (mT, type) {
@@ -131,7 +151,7 @@ let calculate = {
   },
 
   accuracyCalc: function (acc) {
-    let randomNum = Math.floor(Math.random() * 100);
+    randomNum = Math.floor(Math.random() * 100);
     console.log(`randomNum is ${randomNum}`);
     console.log(`${turn[turnCount][currentUP].move1name} accuracy is ${acc}`);
     randomNum <= acc ? (hit = 1) : (hit = 0);
@@ -142,17 +162,24 @@ let calculate = {
       : console.log(`${turn[turnCount][currentUP].name} missed`);
   },
 
-  changeHealth: function (i) {
+  changeHealth: function (i, side) {
     setTimeout(function () {
-      cpu[currentCP].percentWidth = i / cpu[currentCP].health;
+      side.percentWidth = i / side.health;
 
       if (cpu[currentCP].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
       }
 
-      document.querySelector("#cpu-actual").style.width =
-        200 * cpu[currentCP].percentWidth + "px";
-    }, (cpu[currentCP].oldHealth - i) * 10);
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      }
+
+      side === cpu[currentCP]
+        ? (document.querySelector("#cpu-actual").style.width =
+            200 * side.percentWidth + "px")
+        : (document.querySelector("#user-actual").style.width =
+            200 * side.percentWidth + "px");
+    }, (side.oldHealth - i) * 10);
   },
 
   damageCPU: function () {
@@ -164,18 +191,46 @@ let calculate = {
         i >= cpu[currentCP].currentHealth;
         i--
       ) {
-        this.changeHealth(i);
+        this.changeHealth(i, cpu[currentCP]);
       }
     } else if (damage < cpu[currentCP].currentHealth) {
       cpu[currentCP].oldHealth = cpu[currentCP].currentHealth;
       cpu[currentCP].currentHealth = cpu[currentCP].currentHealth - damage;
+      console.log("me too");
       for (
         let i = cpu[currentCP].oldHealth;
         i >= cpu[currentCP].currentHealth;
         i--
       ) {
-        this.changeHealth(i);
+        this.changeHealth(i, cpu[currentCP]);
       }
+    }
+  },
+
+  damageUser: function () {
+    if (damage >= user[currentUP].currentHealth) {
+      user[currentUP].oldHealth = user[currentUP].currentHealth;
+      user[currentUP].currentHealth = 0;
+      for (
+        let i = user[currentUP].oldHealth;
+        i >= user[currentUP].currentHealth;
+        i--
+      ) {
+        this.changeHealth(i, user[currentUP]);
+      }
+    } else if (damage < user[currentUP].currentHealth) {
+      console.log("das me");
+      user[currentUP].oldHealth = user[currentUP].currentHealth;
+      user[currentUP].currentHealth = user[currentUP].currentHealth - damage;
+      for (
+        let i = user[currentUP].oldHealth;
+        i >= user[currentUP].currentHealth;
+        i--
+      ) {
+        this.changeHealth(i, user[currentUP]);
+      }
+      turnCount = 0;
+      moveSaver();
     }
   },
 };
@@ -189,13 +244,19 @@ currentCP = 0;
 let moves = {
   flamethrower: function () {
     turnCount === 0
-      ? calculate.damageCalc(30, 90, "Fire", cpu[currentUP].type)
-      : calculate.damageCalc(30, 90, "Fire", user[1].type);
+      ? calculate.damageCalc(
+          30,
+          90,
+          "Fire",
+          cpu[currentUP].type,
+          cpu[currentCP].attack
+        )
+      : calculate.damageCalc(30, 90, "Fire", user[currentUP].type);
   },
   thunder: function () {
     turnCount === 0
-      ? calculate.damageCalc(120, 70, "Electric", cpu[1].type)
-      : calculate.damageCalc(120, 70, "Electric", user[1].type);
+      ? calculate.damageCalc(120, 70, "Electric", cpu[currentUP].type)
+      : calculate.damageCalc(120, 70, "Electric", user[currentUP].type);
   },
 };
 
@@ -216,6 +277,7 @@ let pokemon = {
     currentHealth: 200,
     health: 200,
     percentWidth: 1,
+    speed: 5,
   },
 
   charmander: {
@@ -233,11 +295,20 @@ let pokemon = {
 
   squirtle: {
     type: ["Water", "Normal"],
+    move1name: "Thunder",
+    move1: moves.thunder,
+    move2name: "Flamethrower",
+    move2: moves.flamethrower,
+    move3name: "Thunder",
+    move3: moves.thunder,
+    move4name: "Thunder",
+    move4: moves.thunder,
     health: 200,
     oldHealth: 200,
     currentHealth: 200,
     health: 200,
     percentWidth: 1,
+    speed: 75,
   },
 
   bulbasaur: {
