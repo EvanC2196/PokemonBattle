@@ -1,3 +1,348 @@
-#test {
-  color: lightblue;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#start-screen {
+  width: 900px;
+  height: 575px;
+  border: 3px solid black;
+  background-color: lightblue;
+}
+
+#prompt {
+  text-align: center;
+  font-size: 50px;
+  margin-top: 50px;
+}
+
+#rival {
+  margin-bottom: -25px;
+}
+
+#order {
+  margin-top: 30px;
+}
+
+.Pokemon {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  font-size: 10px;
+  flex-wrap: wrap;
+  font-size: 50px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 50px;
+}
+
+.Pokemon p {
+  border: 3px solid black;
+  flex-basis: 50%;
+  text-align: center;
+  padding: 15px;
+}
+
+#game {
+  width: 600px;
+  height: 450px;
+  border: 3px solid black;
+  position: relative;
+  background-color: lightgray;
+  display: none;
+}
+
+.flamethrower {
+  animation: flamethrower;
+  animation-duration: 0.1s;
+  animation-iteration-count: 5;
+}
+
+.thunderpunch {
+  animation: thunderpunch;
+  animation-duration: 0.1s;
+  animation-iteration-count: 5;
+}
+
+@keyframes thunderpunch {
+  100% {
+    background-color: yellow;
+  }
+}
+
+@keyframes flamethrower {
+  100% {
+    background-color: orangered;
+  }
+}
+
+#footer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+  font-size: 40px;
+}
+
+#footer p {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.text {
+  cursor: default;
+}
+
+#action-box {
+  border-top: 3px solid black;
+  height: 125px;
+  width: 594px;
+  position: absolute;
+  top: 320px;
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 40px;
+  padding: 10px;
+}
+
+#action-box div {
+  flex-basis: 50%;
+  text-align: center;
+  margin-top: 0px;
+}
+
+.description-box {
+  width: 300px;
+  height: 325px;
+  border: 3px solid black;
+  border-bottom: 2px solid black;
+  position: absolute;
+  right: -300px;
+  top: -3px;
+  background-color: white;
+  font-size: 30px;
+  padding: 20px;
+}
+
+#title {
+  text-align: center;
+}
+
+#description {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-box {
+  width: 300px;
+  height: 125px;
+  border-right: 3px solid black;
+  border-bottom: 2px solid black;
+  border-left: 3px solid black;
+  border-top: 1px solid black;
+  position: absolute;
+  right: -300px;
+  top: 322px;
+  background-color: white;
+  text-align: center;
+  padding: 30px;
+  font-size: 50px;
+}
+
+.user-stats {
+  border: 1px solid black;
+  width: 270px;
+  padding: 5px;
+  border-radius: 10px;
+  position: absolute;
+  top: 225px;
+  left: 280px;
+  background-color: lightblue;
+}
+
+#user-max {
+  width: 200px;
+  height: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#user-actual {
+  width: 200px;
+  height: 15px;
+  border: 1px solid black;
+  position: relative;
+  bottom: 15px;
+  background-color: lightgreen;
+  border-radius: 5px;
+}
+
+#currentHealthNum {
+  position: absolute;
+  left: 210px;
+  top: 36px;
+}
+
+#user-pokemon img {
+  position: absolute;
+  top: 165px;
+  left: 40px;
+  height: 175px;
+  width: 175px;
+  z-index: 0;
+}
+
+#user-name {
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+.cpu-stats {
+  border: 1px solid black;
+  padding: 5px;
+  width: 250px;
+  position: absolute;
+  border-radius: 10px;
+  top: 20px;
+  right: 300px;
+  background-color: lightcoral;
+}
+
+#cpu-name {
+  top: 25px;
+  right: 275px;
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+#cpu-max {
+  width: 200px;
+  height: 15px;
+  border: 1px solid black;
+
+  top: 50px;
+  right: 175px;
+  border-radius: 5px;
+}
+
+#cpu-actual {
+  width: 200px;
+  height: 15px;
+  border: 1px solid black;
+  position: relative;
+  bottom: 15px;
+
+  background-color: lightgreen;
+  border-radius: 5px;
+}
+
+#cpu-pokemon img {
+  position: absolute;
+  top: 15px;
+  right: 68px;
+  height: 150px;
+  width: 150px;
+  z-index: 1;
+}
+
+.activatHealthAnimation {
+  animation: healthAnimation;
+  animation-duration: 3s;
+}
+
+@keyframes healthAnimation {
+  from {
+    width: 200px;
+  }
+  to {
+    width: 0px;
+  }
+}
+
+.userAttackAnimation {
+  animation: userAttack;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes userAttack {
+  0% {
+    left: 15px;
+  }
+  75% {
+    left: 15px;
+  }
+  100% {
+    left: 80px;
+  }
+}
+
+.cpuFaintAnimation {
+  animation: cpuFaintAnimation;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes cpuFaintAnimation {
+  0% {
+  }
+  100% {
+    margin-top: 100px;
+    opacity: 0;
+  }
+}
+
+.test {
+  animation: test;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes test {
+  0% {
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.damageFlicker {
+  animation: damageFlicker;
+  animation-duration: 0.1s;
+  animation-iteration-count: 3;
+}
+
+@keyframes damageFlicker {
+  100% {
+    opacity: 10%;
+  }
+}
+
+#slot1container:hover {
+  opacity: 0.5;
+}
+
+#slot2container:hover {
+  opacity: 0.5;
+}
+
+#slot3container:hover {
+  opacity: 0.5;
+}
+
+#slot4container:hover {
+  opacity: 0.5;
+}
+
+#oval {
+  width: 200px;
+  height: 75px;
+  background-color: darkgray;
+  border-radius: 50%;
+  position: absolute;
+  right: 35px;
+  top: 115px;
+  z-index: 0;
 }
