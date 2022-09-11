@@ -7,8 +7,87 @@
     <title>Document</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
-    <p id="test">test</p>
+    <div id="start-screen">
+      <div id="prompt">
+        
+        <p id ="order">Select the order of your team</p>
+      </div>
+      <div class="Pokemon">
+        <p id="charizard">Charizard</p>
+        <p id ="blastoise">Blastoise</p>
+        <p id="sceptile">Sceptile</p>
+        <p id="salamence">Salamence</p>
+      </div>
+      <div id="footer">
+        <p id="reset">Reset</p>
+        <p onclick="showGame()" id="start-button">Start</p>
+      </div>
+    </div>
+    
+    <div id="game">
+      <audio autoplay>
+      <!--<source src="/Sound/128-battle (vs gym leader).mp3" />-->
+      </audio>
+      <!-- User-->
+      <div id="user-pokemon">
+        <img
+        src="https://img.pokemondb.net/sprites/firered-leafgreen/back-normal/bulbasaur.png"
+        alt="Bulbasaur"
+        />
+
+        <div class="user-stats">
+          <p id="user-name">charizard</p>
+          <p id="user-max"></p>
+          <p id="user-actual"></p>
+          <p id="currentHealthNum"></p>
+        </div>
+      </div>
+      <div id="cpu-pokemon">
+        <img
+        src="https://img.pokemondb.net/sprites/emerald/normal/blaziken.png"
+        alt="Charizard"
+        />
+        <p id="oval"></p>
+        <div class="cpu-stats">
+          <p id="cpu-name">Blaziken</p>
+          <p id="cpu-max"></p>
+          <p id="cpu-actual"></p>
+        </div>
+      </div>
+
+      <div id="action-box">
+        <div id="slot1container">
+          <p class="text" id="slot1" onmouseover="mouseOver()"" onmouseleave="mouseLeave()">Fight</p>
+          <p id="menu-health"></p>
+        </div>
+        <div id="slot2container">
+          <p class="text" id="slot2" onmouseover="mouseOver2()"" onmouseleave="mouseLeave()">Pokemon</p>
+          <p id="menu-health"></p>
+        </div>
+        <div id="slot3container">
+          <p class="text" id="slot3" onmouseover="mouseOver3()"" onmouseleave="mouseLeave()">Bag</p>
+          <p id="menu-health"></p>
+        </div>
+        <div id="slot4container">
+          <p class="text" id="slot4" onmouseover="mouseOver4()"" onmouseleave="mouseLeave()">Run</p>
+          <p id="menu-health"></p>
+        </div>
+      </div>
+
+      <div class="description-box">
+        <p id="title">Good Luck!</p>
+        <p id="description">
+        This game is not balanced whatsoever. Sorry in advance.
+        </p>
+      </div>
+
+      <div class="back-box">
+        <p>Cancel</p>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
+
