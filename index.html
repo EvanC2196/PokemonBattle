@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <div id="start-screen">
+    <!--<div id="start-screen">
       <div id="prompt">
         
         <p id ="order">Select the order of your team</p>
@@ -24,17 +24,17 @@
         <p id="reset">Reset</p>
         <p onclick="showGame()" id="start-button">Start</p>
       </div>
-    </div>
-    
+    </div>-->
+
     <div id="game">
       <audio autoplay>
-      <!--<source src="/Sound/128-battle (vs gym leader).mp3" />-->
+        <!--<source src="/Sound/128-battle (vs gym leader).mp3" />-->
       </audio>
       <!-- User-->
       <div id="user-pokemon">
         <img
-        src="https://img.pokemondb.net/sprites/firered-leafgreen/back-normal/bulbasaur.png"
-        alt="Bulbasaur"
+          src="https://img.pokemondb.net/sprites/firered-leafgreen/back-normal/bulbasaur.png"
+          alt="Bulbasaur"
         />
 
         <div class="user-stats">
@@ -46,8 +46,8 @@
       </div>
       <div id="cpu-pokemon">
         <img
-        src="https://img.pokemondb.net/sprites/emerald/normal/blaziken.png"
-        alt="Charizard"
+          src="https://img.pokemondb.net/sprites/emerald/normal/blaziken.png"
+          alt="Charizard"
         />
         <p id="oval"></p>
         <div class="cpu-stats">
@@ -59,19 +59,19 @@
 
       <div id="action-box">
         <div id="slot1container">
-          <p class="text" id="slot1" onmouseover="mouseOver()"" onmouseleave="mouseLeave()">Fight</p>
+          <p class="text" id="slot1">Fight</p>
           <p id="menu-health"></p>
         </div>
         <div id="slot2container">
-          <p class="text" id="slot2" onmouseover="mouseOver2()"" onmouseleave="mouseLeave()">Pokemon</p>
+          <p class="text" id="slot2">Pokemon</p>
           <p id="menu-health"></p>
         </div>
         <div id="slot3container">
-          <p class="text" id="slot3" onmouseover="mouseOver3()"" onmouseleave="mouseLeave()">Bag</p>
+          <p class="text" id="slot3">Bag</p>
           <p id="menu-health"></p>
         </div>
         <div id="slot4container">
-          <p class="text" id="slot4" onmouseover="mouseOver4()"" onmouseleave="mouseLeave()">Run</p>
+          <p class="text" id="slot4">Run</p>
           <p id="menu-health"></p>
         </div>
       </div>
@@ -79,7 +79,7 @@
       <div class="description-box">
         <p id="title">Good Luck!</p>
         <p id="description">
-        This game is not balanced whatsoever. Sorry in advance.
+          This game is not balanced whatsoever. Sorry in advance.
         </p>
       </div>
 
@@ -90,4 +90,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-
