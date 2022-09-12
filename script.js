@@ -14,7 +14,6 @@ slot1.addEventListener("click", function () {
     slot3.textContent = user[currentUP].move3name;
     slot4.textContent = user[currentUP].move4name;
 
-    description.textContent = "";
     mainTree = 1;
   } else if (mainTree === 1) {
     if (user[currentUP].speed >= cpu[currentCP].speed) {
@@ -123,16 +122,17 @@ let cpuMoveSelect = function () {
 };
 
 let calculate = {
-  damageCalc: function (N, MN, power, acc, userT, mT, cpuT, attack, defense) {
+  damageCalc: function (N, MN, power, acc, attT, mT, defT, attack, defense) {
+    effectiveness = 1;
     slot1.textContent = `${N} used ${MN}`;
     slot2.textContent = "";
     slot3.textContent = "";
     slot4.textContent = "";
 
-    this.stabCalc(userT, mT);
+    this.stabCalc(attT, mT);
     this.critCalc();
     this.accuracyCalc(acc);
-    this.effectivenessCalc(mT, cpuT);
+    this.effectivenessCalc(mT, defT);
 
     switch (effectiveness) {
       case 2:
@@ -149,23 +149,25 @@ let calculate = {
       critical *
       hit;
 
+    console.log(`Power is ${power}`);
+    console.log(`STAB is ${stab}`);
+    console.log(`Effectiveness is ${effectiveness}`);
     console.log(`It did ${damage} damage`);
 
     turnCount === 0 ? this.damageCPU() : this.damageUser();
   },
 
-  effectivenessCalc: function (mT, cpuT) {
+  effectivenessCalc: function (mT, defT) {
     for (i = 0; i <= 1; i++) {
       console.log(mT);
-      console.log(cpuT[i]);
+      console.log(defT[i]);
 
-      switch (mT + cpuT[i]) {
+      switch (mT + defT[i]) {
         case "FireWater":
           effectiveness = effectiveness * 0.5;
           break;
         case "FireGrass":
           effectiveness = effectiveness * 2;
-
           break;
         case "FireNormal":
           effectiveness = effectiveness * 1;
@@ -191,6 +193,12 @@ let calculate = {
         case "SteelNormal":
           effectiveness = effectiveness * 1;
           break;
+        case "NormalElectric":
+          effectiveness = effectiveness * 1;
+          break;
+        case "NormalNormal":
+          effectiveness = effectiveness * 1;
+          break;
       }
       console.log(effectiveness);
     }
@@ -212,8 +220,8 @@ let calculate = {
     }
   },
 
-  stabCalc: function (userT, mT) {
-    if ((userT = mT)) {
+  stabCalc: function (attT, mT) {
+    if (attT === mT) {
       stab = 1.5;
     } else {
       stab = 1;
@@ -341,7 +349,7 @@ let checkUndefined = function () {
 let newCpuPokemon = function () {
   switch (currentCpuPokemon) {
     case 0:
-      setTimeout(sendOutCpuText, 3000);
+      setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
       if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
@@ -351,7 +359,7 @@ let newCpuPokemon = function () {
       }
       break;
     case 1:
-      setTimeout(sendOutCpuText, 3000);
+      setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
       if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
@@ -362,7 +370,7 @@ let newCpuPokemon = function () {
 
       break;
     case 2:
-      setTimeout(sendOutCpuText, 3000);
+      setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
       if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
@@ -373,7 +381,7 @@ let newCpuPokemon = function () {
 
       break;
     case 3:
-      setTimeout(sendOutCpuText, 3000);
+      setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
       if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
@@ -386,7 +394,7 @@ let newCpuPokemon = function () {
   }
 };
 
-let sendOutCpuText = function () {
+let sendOutdefText = function () {
   slot1.textContent = `Chad sent out ${cpuPokemon[currentCpuPokemon].name}`;
   slot2.textContent = "";
   slot3.textContent = "";
