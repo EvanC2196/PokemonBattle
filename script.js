@@ -18,9 +18,9 @@ slot1.addEventListener("click", function () {
     mainTree = 1;
   } else if (mainTree === 1) {
     if (user[currentUP].speed >= cpu[currentCP].speed) {
-      user[currentUP].move1;
-      console.log("me");
+      user[currentUP].move1();
     } else {
+      speedcount = 1;
       moveSaver = user[currentUP].move1;
       cpuMoveSelect();
     }
@@ -92,6 +92,8 @@ slot4.addEventListener("click", function () {
 });
 
 let randomNum = 0;
+let stab = 0;
+let critical = 0;
 
 let cpuMoveSelect = function () {
   turnCount = 1;
@@ -109,26 +111,46 @@ let cpuMoveSelect = function () {
 };
 
 let calculate = {
-  damageCalc: function (power, acc, mT, type) {
+  damageCalc: function (N, MN, power, acc, userT, mT, cpuT, attack, defense) {
+    console.log(`${N} used ${MN}`);
+
+    this.stabCalc(userT, mT);
+    this.critCalc();
     this.accuracyCalc(acc);
-    this.effectivenessCalc(mT, type);
-    damage = power * effectiveness * hit;
-    console.log(`damage is ${damage}`);
+    this.effectivenessCalc(mT, cpuT);
+
+    switch (effectiveness) {
+      case 2:
+        console.log("It was super effective");
+        break;
+      case 0.5:
+        console.log("It was not very effective");
+    }
+
+    damage =
+      ((((2 * 100) / 5 + 2) * power * (attack / defense)) / 50 + 2) *
+      stab *
+      effectiveness *
+      critical *
+      hit;
+
+    console.log(`It did ${damage} damage`);
 
     turnCount === 0 ? this.damageCPU() : this.damageUser();
   },
 
-  effectivenessCalc: function (mT, type) {
+  effectivenessCalc: function (mT, cpuT) {
     for (i = 0; i <= 1; i++) {
       console.log(mT);
-      console.log(type[i]);
+      console.log(cpuT[i]);
 
-      switch (mT + type[i]) {
+      switch (mT + cpuT[i]) {
         case "FireWater":
           effectiveness = effectiveness * 0.5;
           break;
         case "FireGrass":
           effectiveness = effectiveness * 2;
+
           break;
         case "FireNormal":
           effectiveness = effectiveness * 1;
@@ -145,6 +167,8 @@ let calculate = {
         case "ElectricNormal":
           effectiveness = effectiveness * 1;
           break;
+        case "ElectricWater":
+          effectiveness = effectiveness * 2;
       }
       console.log(effectiveness);
     }
@@ -155,11 +179,23 @@ let calculate = {
     console.log(`randomNum is ${randomNum}`);
     console.log(`${turn[turnCount][currentUP].move1name} accuracy is ${acc}`);
     randomNum <= acc ? (hit = 1) : (hit = 0);
-    hit === 1
-      ? console.log(
-          `${turn[turnCount][currentUP].name} used ${turn[turnCount][currentUP].move1name}`
-        )
-      : console.log(`${turn[turnCount][currentUP].name} missed`);
+  },
+
+  critCalc: function () {
+    randomNum = Math.random() * 100;
+    if (randomNum <= 6.25) {
+      critical = 2;
+    } else {
+      critical = 1;
+    }
+  },
+
+  stabCalc: function (userT, mT) {
+    if ((userT = mT)) {
+      stab = 1.5;
+    } else {
+      stab = 1;
+    }
   },
 
   changeHealth: function (i, side) {
@@ -193,6 +229,7 @@ let calculate = {
       ) {
         this.changeHealth(i, cpu[currentCP]);
       }
+      console.log("me");
     } else if (damage < cpu[currentCP].currentHealth) {
       cpu[currentCP].oldHealth = cpu[currentCP].currentHealth;
       cpu[currentCP].currentHealth = cpu[currentCP].currentHealth - damage;
@@ -204,6 +241,8 @@ let calculate = {
       ) {
         this.changeHealth(i, cpu[currentCP]);
       }
+      turnCount = 1;
+      setTimeout(cpuMoveSelect, 3000);
     }
   },
 
@@ -230,11 +269,12 @@ let calculate = {
         this.changeHealth(i, user[currentUP]);
       }
       turnCount = 0;
-      moveSaver();
+      speedcount === 1 ? moveSaver : console.log("reset");
     }
   },
 };
 
+let speedcount = 0;
 let hit = 0;
 let turnCount = 0;
 let effectiveness = 1;
@@ -245,18 +285,127 @@ let moves = {
   flamethrower: function () {
     turnCount === 0
       ? calculate.damageCalc(
-          30,
+          user[currentUP].name,
+          "Flamethrower",
           90,
+          100,
+          user[currentUP].type,
           "Fire",
-          cpu[currentUP].type,
-          cpu[currentCP].attack
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
         )
-      : calculate.damageCalc(30, 90, "Fire", user[currentUP].type);
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Flamethrower",
+          90,
+          100,
+          cpu[currentCP].type,
+          "Fire",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
   },
   thunder: function () {
     turnCount === 0
-      ? calculate.damageCalc(120, 70, "Electric", cpu[currentUP].type)
-      : calculate.damageCalc(120, 70, "Electric", user[currentUP].type);
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Thunder",
+          110,
+          70,
+          user[currentUP].type,
+          "Electric",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Thunder",
+          120,
+          70,
+          cpu[currentCP].type,
+          "Electric",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+  thunderbolt: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Thunderbolt",
+          90,
+          100,
+          user[currentUP].type,
+          "Electric",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Thunderbolt",
+          90,
+          100,
+          cpu[currentCP].type,
+          "Electric",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+  ironTail: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Iron Tail",
+          100,
+          75,
+          user[currentUP].type,
+          "Steel",
+          cpu[currentCP].type,
+          user[currentUP].attack,
+          cpu[currentCP].defense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Iron Tail",
+          100,
+          75,
+          cpu[currentCP].type,
+          "Steel",
+          user[currentUP].type,
+          cpu[currentCP].attack,
+          user[currentUP].defense
+        );
+  },
+  quickAttack: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Quick Attack",
+          40,
+          100,
+          user[currentUP].type,
+          "Normal",
+          cpu[currentCP].type,
+          user[currentUP].attack,
+          cpu[currentCP].defense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Quick Attack",
+          40,
+          100,
+          cpu[currentCP].type,
+          "Normal",
+          user[currentUP].type,
+          cpu[currentCP].attack,
+          user[currentUP].defense
+        );
   },
 };
 
@@ -266,18 +415,22 @@ let pokemon = {
     type: ["Electric", "Normal"],
     move1name: "Thunder",
     move1: moves.thunder,
-    move2name: "Thunder",
-    move2: moves.thunder,
-    move3name: "Thunder",
-    move3: moves.thunder,
-    move4name: "Thunder",
-    move4: moves.thunder,
-    health: 200,
-    oldHealth: 200,
-    currentHealth: 200,
-    health: 200,
+    move2name: "Thunderbolt",
+    move2: moves.thunderbolt,
+    move3name: "Iron Tail",
+    move3: moves.ironTail,
+    move4name: "Quick Attack",
+    move4: moves.quickAttack,
+    health: 274,
+    oldHealth: 274,
+    currentHealth: 274,
+    health: 274,
     percentWidth: 1,
-    speed: 5,
+    attack: 229,
+    defense: 196,
+    specialAttack: 218,
+    specialDefense: 218,
+    speed: 306,
   },
 
   charmander: {
@@ -303,12 +456,16 @@ let pokemon = {
     move3: moves.thunder,
     move4name: "Thunder",
     move4: moves.thunder,
-    health: 200,
-    oldHealth: 200,
-    currentHealth: 200,
-    health: 200,
+    health: 292,
+    oldHealth: 292,
+    currentHealth: 292,
+    health: 292,
     percentWidth: 1,
-    speed: 75,
+    attack: 214,
+    defense: 251,
+    specialAttack: 218,
+    specialDefense: 249,
+    speed: 203,
   },
 
   bulbasaur: {
