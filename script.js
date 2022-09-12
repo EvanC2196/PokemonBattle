@@ -124,6 +124,7 @@ let cpuMoveSelect = function () {
 let calculate = {
   damageCalc: function (N, MN, power, acc, attT, mT, defT, attack, defense) {
     effectiveness = 1;
+    console.log(`${N} used ${MN}`);
     slot1.textContent = `${N} used ${MN}`;
     slot2.textContent = "";
     slot3.textContent = "";
@@ -221,7 +222,7 @@ let calculate = {
   },
 
   stabCalc: function (attT, mT) {
-    if (attT === mT) {
+    if (attT[0] === mT || attT[1] === mT) {
       stab = 1.5;
     } else {
       stab = 1;
