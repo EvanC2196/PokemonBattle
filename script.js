@@ -25,7 +25,7 @@ slot1.addEventListener("click", function () {
     }
   } else if (mainTree === 2) {
     currentUserPokemon = 0;
-    console.log(`send out ${userPokemon[currentUserPokemon].name}`);
+    console.log(`send out ${user[currentUP].name}`);
     setTimeout(newUserPokemon, 1000);
     mainTree = 0;
   }
@@ -47,7 +47,7 @@ slot2.addEventListener("click", function () {
     }
   } else if (mainTree === 2) {
     console.log("send out blastoise");
-    currentUserPokemon = 1;
+    currentUPokemon = 1;
     setTimeout(newUserPokemon, 1000);
     console.log("CPU turn");
     mainTree = 0;
@@ -261,7 +261,7 @@ let calculate = {
         this.changeHealth(i, cpu[currentCP]);
       }
       console.log("me");
-      faintedCPU();
+      setTimeout(faintedCPU, 1000);
     } else if (damage < cpu[currentCP].currentHealth) {
       cpu[currentCP].oldHealth = cpu[currentCP].currentHealth;
       cpu[currentCP].currentHealth = cpu[currentCP].currentHealth - damage;
@@ -288,6 +288,7 @@ let calculate = {
         i--
       ) {
         this.changeHealth(i, user[currentUP]);
+        pickNewPokemon();
       }
     } else if (damage < user[currentUP].currentHealth) {
       console.log("das me");
@@ -318,27 +319,118 @@ let resetMenu = function () {
   console.log("test");
 };
 
+let faintedUser = function () {
+  delete user[currentUP];
+
+  if (user[0] === undefined && user[1] === undefined) {
+    console.log("YOU LOSE");
+  } else {
+    setTimeout(pickNewPokemon, 500);
+    mainTree = 2;
+  }
+};
+
+let pickNewPokemon = function () {
+  document.querySelector("#action-box div").style.marginTop = `0px`;
+  document.querySelector("#action-box div").style.flexBasis = `50%`;
+  if (user[0] === undefined) {
+    slot1.textContent = "Fainted";
+  } else {
+    slot1.textContent = user[0].name;
+  }
+  if (user[1] === undefined) {
+    slot2.textContent = "Fainted";
+  } else {
+    slot2.textContent = user[1].name;
+  }
+};
+
+let newUserPokemon = function () {
+  switch (currentUserPokemon) {
+    case 0:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      break;
+    case 1:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      break;
+    case 2:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      break;
+    case 3:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      break;
+  }
+  if (turnCounter === 7) {
+    turnCounter = 1;
+    setTimeout(cpuTurn, 3000);
+    console.log("me");
+  }
+};
+
 let faintedCPU = function () {
-  document.querySelector("#cpu-pokemon img").classList.remove("damageFlicker");
-  document.querySelector("#cpu-pokemon img").classList.add("cpuFaintAnimation");
-  delete cpuPokemon[currentCpuPokemon];
-  if (
-    cpuPokemon[0] === undefined &&
-    cpuPokemon[1] === undefined &&
-    cpuPokemon[2] === undefined &&
-    cpuPokemon[3] === undefined
-  ) {
+  delete cpu[currentCP];
+  if (cpu[0] === undefined && cpu[1] === undefined) {
     console.log("YOU WIN");
   } else {
-    console.log(cpuPokemon);
+    console.log(cpu);
     checkUndefined();
   }
 };
 
 let checkUndefined = function () {
-  currentCpuPokemon = Math.floor(Math.random() * 4);
-  console.log(currentCpuPokemon);
-  if (cpuPokemon[currentCpuPokemon] === undefined) {
+  currentCP = Math.floor(Math.random() * 2);
+  console.log(currentCP);
+  if (cpu[currentCP] === undefined) {
     checkUndefined();
     console.log("run again");
   } else {
@@ -348,11 +440,11 @@ let checkUndefined = function () {
 };
 
 let newCpuPokemon = function () {
-  switch (currentCpuPokemon) {
+  switch (currentCP) {
     case 0:
       setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
-      if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
+      if (cpu[currentCP].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
       } else {
         document.querySelector("#cpu-actual").style.backgroundColor =
@@ -362,7 +454,7 @@ let newCpuPokemon = function () {
     case 1:
       setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
-      if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
+      if (cpu[currentCP].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
       } else {
         document.querySelector("#cpu-actual").style.backgroundColor =
@@ -373,7 +465,7 @@ let newCpuPokemon = function () {
     case 2:
       setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
-      if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
+      if (cpu[currentCP].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
       } else {
         document.querySelector("#cpu-actual").style.backgroundColor =
@@ -384,7 +476,7 @@ let newCpuPokemon = function () {
     case 3:
       setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
-      if (cpuPokemon[currentCpuPokemon].percentWidth < 0.25) {
+      if (cpu[currentCP].percentWidth < 0.25) {
         document.querySelector("#cpu-actual").style.backgroundColor = "red";
       } else {
         document.querySelector("#cpu-actual").style.backgroundColor =
@@ -395,12 +487,58 @@ let newCpuPokemon = function () {
   }
 };
 
+let cpuPokemonName = document.querySelector("#cpu-name");
+
+let sendOutCpu = function () {
+  if (currentCP === 0) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    document.querySelector("#cpu-pokemon img").src =
+      "https://img.pokemondb.net/sprites/emerald/normal/blaziken.png";
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  } else if (currentCP === 1) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    console.log("tis me");
+    document.querySelector("#cpu-pokemon img").src =
+      "https://img.pokemondb.net/sprites/black-white/anim/normal/bulbasaur.gif";
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  } else if (currentCP === 2) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    document.querySelector("#cpu-pokemon img").src =
+      "https://img.pokemondb.net/sprites/firered-leafgreen/normal/venusaur.png";
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  } else if (currentCP === 3) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    document.querySelector("#cpu-pokemon img").src =
+      "https://img.pokemondb.net/sprites/firered-leafgreen/normal/dragonite.png";
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  }
+};
+
 let sendOutdefText = function () {
-  slot1.textContent = `Chad sent out ${cpuPokemon[currentCpuPokemon].name}`;
+  slot1.textContent = `Chad sent out ${cpu[currentCP].name}`;
   slot2.textContent = "";
   slot3.textContent = "";
   slot4.textContent = "";
-  console.log(`current cpu is ${currentCpuPokemon}`);
 };
 
 let speedcount = 0;
@@ -638,16 +776,29 @@ let pokemon = {
   },
 
   charmander: {
-    name: "charmander",
+    name: "Charmander",
+    sprite:
+      "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charmander.gif",
     type1: "Fire",
     type2: "Flying",
     move1name: "Flamethrower",
     move1: moves.flamethrower,
-    health: 200,
-    oldHealth: 200,
-    currentHealth: 200,
-    health: 200,
+    move2name: "Thunderbolt",
+    move2: moves.thunderbolt,
+    move3name: "Iron Tail",
+    move3: moves.ironTail,
+    move4name: "Quick Attack",
+    move4: moves.quickAttack,
+    health: 274,
+    oldHealth: 274,
+    currentHealth: 274,
+    health: 274,
     percentWidth: 1,
+    attack: 229,
+    defense: 196,
+    specialAttack: 218,
+    specialDefense: 218,
+    speed: 306,
   },
 
   squirtle: {
@@ -676,11 +827,24 @@ let pokemon = {
   bulbasaur: {
     name: "Bulbasaur",
     type: ["Grass", "Normal"],
-    health: 200,
-    oldHealth: 200,
-    currentHealth: 200,
-    health: 200,
+    move1name: "Quick Attack",
+    move1: moves.quickAttack,
+    move2name: "Water Pulse",
+    move2: moves.waterPulse,
+    move3name: "Headbutt",
+    move3: moves.headButt,
+    move4name: "Ice Beam",
+    move4: moves.iceBeam,
+    health: 292,
+    oldHealth: 292,
+    currentHealth: 292,
+    health: 292,
     percentWidth: 1,
+    attack: 214,
+    defense: 251,
+    specialAttack: 218,
+    specialDefense: 249,
+    speed: 203,
   },
 };
 
