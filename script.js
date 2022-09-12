@@ -1,11 +1,21 @@
+//VARIABLES
 let mainTree = 0;
+let moveSaver = 0;
+let randomNum = 0;
+let stab = 0;
+let critical = 0;
+let speedcount = 0;
+let hit = 0;
+let turnCount = 0;
+let effectiveness = 1;
+let currentUP = 0;
+let currentCP = 0;
 
+//MENU
 const slot1 = document.querySelector("#slot1");
 const slot2 = document.querySelector("#slot2");
 const slot3 = document.querySelector("#slot3");
 const slot4 = document.querySelector("#slot4");
-
-let moveSaver = 0;
 
 slot1.addEventListener("click", function () {
   if (mainTree === 0) {
@@ -102,25 +112,7 @@ slot4.addEventListener("click", function () {
   }
 });
 
-let randomNum = 0;
-let stab = 0;
-let critical = 0;
-
-let cpuMoveSelect = function () {
-  turnCount = 1;
-  randomNum = Math.floor(Math.random() * 100);
-  console.log(randomNum);
-  if (randomNum <= 25) {
-    cpu[currentCP].move1();
-  } else if (randomNum <= 50) {
-    cpu[currentCP].move2();
-  } else if (randomNum <= 75) {
-    cpu[currentCP].move3();
-  } else if (randomNum <= 100) {
-    cpu[currentCP].move4();
-  }
-};
-
+//CALCULATIONS
 let calculate = {
   damageCalc: function (N, MN, power, acc, attT, mT, defT, attack, defense) {
     effectiveness = 1;
@@ -307,6 +299,23 @@ let calculate = {
   },
 };
 
+//CPU TURN
+let cpuMoveSelect = function () {
+  turnCount = 1;
+  randomNum = Math.floor(Math.random() * 100);
+  console.log(randomNum);
+  if (randomNum <= 25) {
+    cpu[currentCP].move1();
+  } else if (randomNum <= 50) {
+    cpu[currentCP].move2();
+  } else if (randomNum <= 75) {
+    cpu[currentCP].move3();
+  } else if (randomNum <= 100) {
+    cpu[currentCP].move4();
+  }
+};
+
+//RESET MENU
 let resetMenu = function () {
   document.querySelector("#action-box div").style.flexBasis = `50%`;
   document.querySelector("#action-box div").style.marginTop = `0px`;
@@ -541,13 +550,7 @@ let sendOutdefText = function () {
   slot4.textContent = "";
 };
 
-let speedcount = 0;
-let hit = 0;
-let turnCount = 0;
-let effectiveness = 1;
-currentUP = 0;
-currentCP = 0;
-
+//MOVES
 let moves = {
   flamethrower: function () {
     turnCount === 0
@@ -751,6 +754,7 @@ let moves = {
   },
 };
 
+//POKEMON
 let pokemon = {
   pikachu: {
     name: "Pikachu",
