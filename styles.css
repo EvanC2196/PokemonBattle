@@ -52,27 +52,51 @@
   background-color: lightgray;
 }
 
-.flamethrower {
-  animation: flamethrower;
+.fire {
+  animation: fire;
   animation-duration: 0.1s;
   animation-iteration-count: 5;
 }
 
-.thunderpunch {
-  animation: thunderpunch;
+.electric {
+  animation: electric;
   animation-duration: 0.1s;
   animation-iteration-count: 5;
 }
 
-@keyframes thunderpunch {
+@keyframes electric {
   100% {
     background-color: yellow;
   }
 }
 
-@keyframes flamethrower {
+@keyframes fire {
   100% {
     background-color: orangered;
+  }
+}
+
+.water {
+  animation: water;
+  animation-duration: 0.1s;
+  animation-iteration-count: 5;
+}
+
+@keyframes water {
+  100% {
+    background-color: lightblue;
+  }
+}
+
+.steel {
+  animation: steel;
+  animation-duration: 0.1s;
+  animation-iteration-count: 5;
+}
+
+@keyframes steel {
+  100% {
+    background-color: darkgray;
   }
 }
 
@@ -239,10 +263,10 @@
 
 #cpu-pokemon img {
   position: absolute;
-  top: 25px;
-  right: 65px;
-  height: 135px;
-  width: 135px;
+  top: 0px;
+  right: 45px;
+  height: 170px;
+  width: 170px;
   z-index: 1;
 }
 
