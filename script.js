@@ -417,8 +417,10 @@ let calculate = {
       turnCount = 0;
       if (speedcount === 1) {
         setTimeout(moveSaver, 3000);
+        console.log("me");
       } else {
         setTimeout(resetMenu, 3000);
+        console.log("me");
       }
     }
   },
@@ -1125,6 +1127,75 @@ let moves = {
   },
 };
 
+class Pokemon {
+  constructor(
+    name,
+    type,
+    move1name,
+    move1,
+    move2name,
+    move2,
+    move3name,
+    move3,
+    move4name,
+    move4,
+    health,
+    oldHealth,
+    currentHealth,
+    percentWidth,
+    attack,
+    defense,
+    specialAttack,
+    specialDefense,
+    speed
+  ) {
+    this.name = name;
+    this.type = type;
+    this.move1name = move1name;
+    this.move1 = move1;
+    this.move2name = move2name;
+    this.move2 = move2;
+    this.move3name = move3name;
+    this.move3 = move3;
+    this.move4name = move4name;
+    this.move4 = move4;
+    this.health = health;
+    this.oldHealth = oldHealth;
+    this.currentHealth = currentHealth;
+    this.percentWidth = percentWidth;
+    this.attack = attack;
+    this.defense = defense;
+    this.specialAttack = specialAttack;
+    this.specialDefense = specialDefense;
+    this.speed = speed;
+  }
+}
+
+let pikachu = new Pokemon(
+  "Pikachu",
+  ["Electric", "Electric"],
+  "Volt Tackle",
+  moves.voltTackle,
+  "Thunderbolt",
+  moves.thunderbolt,
+  "Iron Tail",
+  moves.ironTail,
+  "Quick Attack",
+  moves.quickAttack,
+  274,
+  274,
+  274,
+  274,
+  1,
+  262,
+  196,
+  378,
+  218,
+  306
+);
+
+console.log(pikachu);
+
 //POKEMON
 let pokemon = {
   pikachu: {
@@ -1480,7 +1551,7 @@ let pokemon = {
 };
 
 let user = [
-  pokemon.pikachu,
+  pikachu,
   pokemon.lapras,
   pokemon.snorlax,
   pokemon.venusaur,
