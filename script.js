@@ -190,6 +190,8 @@ let calculate = {
     console.log(`STAB is ${stab}`);
     console.log(`Effectiveness is ${effectiveness}`);
     console.log(`It did ${damage} damage`);
+    console.log(`attack is ${attack}`);
+    console.log(`defense if ${defense}`);
 
     turnCount === 0 ? this.damageCPU() : this.damageUser();
   },
@@ -203,32 +205,32 @@ let calculate = {
         case "FireWater":
           effectiveness = effectiveness * 0.5;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "FireIce":
           effectiveness = effectiveness * 2;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "FireGrass":
           effectiveness = effectiveness * 2;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "FireNormal":
           effectiveness = effectiveness * 1;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "FireFire":
           effectiveness = effectiveness * 0.5;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "FireFlying":
           effectiveness = effectiveness * 1;
           fire1();
-          setTimeout(fire2, 100);
+          setTimeout(fire2, 1000);
           break;
         case "ElectricGrass":
           effectiveness = effectiveness * 0.5;
@@ -656,7 +658,7 @@ let faintedCPU = function () {
 };
 
 let checkUndefined = function () {
-  currentCP = Math.floor(Math.random() * 2);
+  currentCP = Math.floor(Math.random() * 5);
   console.log(currentCP);
   if (cpu[currentCP] === undefined) {
     checkUndefined();
@@ -688,6 +690,8 @@ let newCpuPokemon = function () {
         document.querySelector("#cpu-actual").style.backgroundColor =
           "lightgreen";
       }
+      document.querySelector("#cpu-pokemon img").style.width = "100px";
+      document.querySelector("#cpu-pokemon img").style.height = "100px";
 
       break;
     case 2:
@@ -712,6 +716,32 @@ let newCpuPokemon = function () {
       }
 
       break;
+    case 5:
+      setTimeout(sendOutdefText, 3000);
+      setTimeout(sendOutCpu, 4000);
+      if (cpu[currentCP].percentWidth < 0.25) {
+        document.querySelector("#cpu-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#cpu-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      document.querySelector("#cpu-pokemon img").style.width = "150px";
+      document.querySelector("#cpu-pokemon img").style.height = "150px";
+
+      break;
+    case 5:
+      setTimeout(sendOutdefText, 3000);
+      setTimeout(sendOutCpu, 4000);
+      if (cpu[currentCP].percentWidth < 0.25) {
+        document.querySelector("#cpu-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#cpu-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      document.querySelector("#cpu-pokemon img").style.width = "150px";
+      document.querySelector("#cpu-pokemon img").style.height = "150px";
+
+      break;
   }
 };
 
@@ -731,7 +761,8 @@ let sendOutCpu = function () {
   } else if (currentCP === 1) {
     cpuPokemonName.textContent = cpu[currentCP].name;
     console.log("tis me");
-    document.querySelector("#cpu-pokemon img").src = pokemon.mightyena.sprite;
+
+    document.querySelector("#cpu-pokemon img").src = frosslass.sprite;
 
     document.querySelector("#cpu-actual").style.width =
       200 * cpu[currentCP].percentWidth + "px";
@@ -1074,6 +1105,32 @@ let moves = {
         );
   },
 
+  shadowBall: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Shadow Ball",
+          80,
+          100,
+          user[currentUP].type,
+          "Ghost",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Shadow Ball",
+          80,
+          100,
+          cpu[currentCP].type,
+          "Ghost",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+
   flareBlitz: function () {
     turnCount === 0
       ? calculate.damageCalc(
@@ -1125,11 +1182,88 @@ let moves = {
           user[currentUP].defense
         );
   },
+  voltTackle: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Volt Tackle",
+          120,
+          100,
+          user[currentUP].type,
+          "Electric",
+          cpu[currentCP].type,
+          user[currentUP].attack,
+          cpu[currentCP].defense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Volt Tackle",
+          120,
+          100,
+          cpu[currentCP].type,
+          "Electric",
+          user[currentUP].type,
+          cpu[currentCP].attack,
+          user[currentUP].defense
+        );
+  },
+  gigaImpact: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Giga Impact",
+          150,
+          90,
+          user[currentUP].type,
+          "Normal",
+          cpu[currentCP].type,
+          user[currentUP].attack,
+          cpu[currentCP].defense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Giga Impact",
+          150,
+          90,
+          cpu[currentCP].type,
+          "Normal",
+          user[currentUP].type,
+          cpu[currentCP].attack,
+          user[currentUP].defense
+        );
+  },
+  crunch: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Crunch",
+          80,
+          100,
+          user[currentUP].type,
+          "Dark",
+          cpu[currentCP].type,
+          user[currentUP].attack,
+          cpu[currentCP].defense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Giga Impact",
+          80,
+          100,
+          cpu[currentCP].type,
+          "Dark",
+          user[currentUP].type,
+          cpu[currentCP].attack,
+          user[currentUP].defense
+        );
+  },
 };
 
+//Pokemon
 class Pokemon {
   constructor(
     name,
+    sprite,
     type,
     move1name,
     move1,
@@ -1150,6 +1284,7 @@ class Pokemon {
     speed
   ) {
     this.name = name;
+    this.sprite = sprite;
     this.type = type;
     this.move1name = move1name;
     this.move1 = move1;
@@ -1173,7 +1308,8 @@ class Pokemon {
 
 let pikachu = new Pokemon(
   "Pikachu",
-  ["Electric", "Electric"],
+  "",
+  ["Electric", "Normal"],
   "Volt Tackle",
   moves.voltTackle,
   "Thunderbolt",
@@ -1185,7 +1321,6 @@ let pikachu = new Pokemon(
   274,
   274,
   274,
-  274,
   1,
   262,
   196,
@@ -1194,373 +1329,155 @@ let pikachu = new Pokemon(
   306
 );
 
-console.log(pikachu);
+let shinyCharizard = new Pokemon(
+  "Drogon",
+  "https://img.pokemondb.net/sprites/black-white/anim/shiny/charizard.gif",
+  ["Fire", "Flying"],
+  "Flamethrower",
+  moves.flamethrower,
+  "Blast Burn",
+  moves.blastBurn,
+  "Earthquake",
+  moves.earthquake,
+  "Dragon Pulse",
+  moves.dragonPulse,
+  360,
+  360,
+  360,
+  1,
+  293,
+  280,
+  348,
+  295,
+  328
+);
 
-//POKEMON
-let pokemon = {
-  pikachu: {
-    name: "Pikachu",
-    type: ["Electric", "Electric"],
-    move1name: "Volt Tackle",
-    move1: moves.voltTackle,
-    move2name: "Thunderbolt",
-    move2: moves.thunderbolt,
-    move3name: "Iron Tail",
-    move3: moves.ironTail,
-    move4name: "Quick Attack",
-    move4: moves.quickAttack,
-    health: 274,
-    oldHealth: 274,
-    currentHealth: 274,
-    health: 274,
-    percentWidth: 1,
-    attack: 262,
-    defense: 196,
-    specialAttack: 378,
-    specialDefense: 218,
-    speed: 306,
-  },
+let frosslass = new Pokemon(
+  "Froslass",
+  "https://img.pokemondb.net/sprites/black-white/anim/shiny/froslass.gif",
+  ["Ice", "Ghost"],
+  "Shadow Ball",
+  moves.shadowBall,
+  "Ice Beam",
+  moves.iceBeam,
+  "Shadow Ball",
+  moves.shadowBall,
+  "Ice Beam",
+  moves.iceBeam,
+  344,
+  344,
+  344,
+  1,
+  284,
+  262,
+  284,
+  262,
+  350
+);
 
-  charmander: {
-    name: "Charmander",
-    sprite:
-      "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charmander.gif",
-    type: ["Fire", "Normal"],
+let lapras = new Pokemon(
+  "Lapras",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/lapras.gif",
+  ["Water", "Ice"],
+  "Psychic",
+  moves.psychic,
+  "Water Pulse",
+  moves.waterPulse,
+  "Body Slam",
+  moves.bodySlam,
+  "Ice Beam",
+  moves.iceBeam,
+  464,
+  464,
+  464,
+  1,
+  295,
+  284,
+  295,
+  317,
+  240
+);
 
-    move1name: "Flamethrower",
-    move1: moves.flamethrower,
-    move2name: "Thunderbolt",
-    move2: moves.thunderbolt,
-    move3name: "Iron Tail",
-    move3: moves.ironTail,
-    move4name: "Quick Attack",
-    move4: moves.quickAttack,
-    health: 274,
-    oldHealth: 274,
-    currentHealth: 274,
-    health: 274,
-    percentWidth: 1,
-    attack: 229,
-    defense: 196,
-    specialAttack: 218,
-    specialDefense: 218,
-    speed: 306,
-  },
+let snorlax = new Pokemon(
+  "Snorlax",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/snorlax.gif",
+  ["Normal", "Normal"],
+  "Shadow Ball",
+  moves.shadowBall,
+  "Crunch",
+  moves.crunch,
+  "Ice Beam",
+  moves.iceBeam,
+  "Giga Impact",
+  moves.gigaImpact,
+  524,
+  524,
+  524,
+  1,
+  350,
+  251,
+  251,
+  350,
+  174
+);
 
-  squirtle: {
-    name: "Squirtle",
-    type: ["Water", "Normal"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 1000,
-    defense: 251,
-    specialAttack: 1000,
-    specialDefense: 249,
-    speed: 203,
-  },
+let charizard = new Pokemon(
+  "Charizard",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charizard.gif",
+  ["Fire", "Flying"],
+  "Blast Burn",
+  moves.blastBurn,
+  "Flare Blitz",
+  moves.flareBlitz,
+  "Air Slash",
+  moves.airSlash,
+  "Dragon Pulse",
+  moves.dragonPulse,
+  360,
+  360,
+  360,
+  1,
+  293,
+  280,
+  348,
+  295,
+  328
+);
 
-  bulbasaur: {
-    name: "Bulbasaur",
-    type: ["Grass", "Normal"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-
-  frosslass: {
-    name: "Frosslass",
-    type: ["Ghost", "Ice"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-
-  shinyCharizard: {
-    name: "Drogon",
-    sprite:
-      "https://img.pokemondb.net/sprites/black-white/anim/shiny/charizard.gif",
-    type: ["Fire", "Flying"],
-    move1name: "Flamethrower",
-    move1: moves.flamethrower,
-    move2name: "Blast Burn",
-    move2: moves.blastBurn,
-    move3name: "Earthquake",
-    move3: moves.earthquake,
-    move4name: "Dragon Pulse",
-    move4: moves.dragonPulse,
-    health: 360,
-    oldHealth: 360,
-    currentHealth: 360,
-    health: 360,
-    percentWidth: 1,
-    attack: 293,
-    defense: 280,
-    specialAttack: 348,
-    specialDefense: 295,
-    speed: 328,
-  },
-  aegislash: {
-    name: "Longclaw",
-    type: ["Ghost", "Steel"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-  mightyena: {
-    name: "Ghost",
-    sprite:
-      "https://img.pokemondb.net/sprites/black-white/anim/normal/mightyena.gif",
-    type: ["Dark", "Dark"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 344,
-    oldHealth: 344,
-    currentHealth: 344,
-    health: 344,
-    percentWidth: 1,
-    attack: 306,
-    defense: 262,
-    specialAttack: 240,
-    specialDefense: 240,
-    speed: 262,
-  },
-  salamence: {
-    name: "Salamence",
-    type: ["Dragon", "Flying"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-  suicune: {
-    name: "Suicune",
-    type: ["Water", "Normal"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-
-  lapras: {
-    name: "Lapras",
-    sprite:
-      "https://img.pokemondb.net/sprites/black-white/anim/back-normal/lapras.gif",
-
-    type: ["Water", "Ice"],
-    move1name: "Psychic",
-    move1: moves.psychic,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Body Slam",
-    move3: moves.bodySlam,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 464,
-    oldHealth: 464,
-    currentHealth: 464,
-    health: 464,
-    percentWidth: 1,
-    attack: 295,
-    defense: 284,
-    specialAttack: 295,
-    specialDefense: 317,
-    speed: 240,
-  },
-
-  snorlax: {
-    name: "Snorlax",
-    type: ["Normal", "Normal"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-
-  venusaur: {
-    name: "Venusaur",
-    type: ["Grass", "Poison"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 292,
-    oldHealth: 292,
-    currentHealth: 292,
-    health: 292,
-    percentWidth: 1,
-    attack: 214,
-    defense: 251,
-    specialAttack: 218,
-    specialDefense: 249,
-    speed: 203,
-  },
-  blastoise: {
-    name: "Blastoise",
-    type: ["Water", "Water"],
-    move1name: "Quick Attack",
-    move1: moves.quickAttack,
-    move2name: "Water Pulse",
-    move2: moves.waterPulse,
-    move3name: "Headbutt",
-    move3: moves.headButt,
-    move4name: "Ice Beam",
-    move4: moves.iceBeam,
-    health: 362,
-    oldHealth: 362,
-    currentHealth: 362,
-    health: 362,
-    percentWidth: 1,
-    attack: 291,
-    defense: 328,
-    specialAttack: 295,
-    specialDefense: 339,
-    speed: 280,
-  },
-  charizard: {
-    name: "charizard",
-    sprite:
-      "https://img.pokemondb.net/sprites/black-white/anim/back-normal/charizard.gif",
-    type: ["Fire", "Flying"],
-    move1name: "Blast Burn",
-    move1: moves.blastBurn,
-    move2name: "Flare Blitz",
-    move2: moves.flareBlitz,
-    move3name: "Air Slash",
-    move3: moves.airSlash,
-    move4name: "Dragon Pulse",
-    move4: moves.dragonPulse,
-    health: 360,
-    oldHealth: 360,
-    currentHealth: 360,
-    health: 360,
-    percentWidth: 1,
-    attack: 293,
-    defense: 280,
-    specialAttack: 348,
-    specialDefense: 295,
-    speed: 328,
-  },
-};
+let salamence = new Pokemon(
+  "Salamence",
+  "https://img.pokemondb.net/sprites/black-white/anim/shiny/salamence.gif",
+  ["Dragon", "Flying"],
+  "Dragon Pulse",
+  moves.dragonPulse,
+  "Air Slash",
+  moves.airSlash,
+  "Flamethrower",
+  moves.flamethrower,
+  "Crunch",
+  moves.crunch,
+  394,
+  394,
+  394,
+  1,
+  405,
+  284,
+  350,
+  284,
+  328
+);
 
 let user = [
   pikachu,
-  pokemon.lapras,
-  pokemon.snorlax,
-  pokemon.venusaur,
+  lapras,
+  snorlax,
+  charizard,
   pokemon.charizard,
   pokemon.blastoise,
 ];
 let cpu = [
-  pokemon.shinyCharizard,
-  pokemon.mightyena,
+  shinyCharizard,
+  frosslass,
   pokemon.frosslass,
   pokemon.suicune,
   pokemon.salamence,
@@ -1568,3 +1485,5 @@ let cpu = [
 ];
 
 let turn = [user, cpu];
+
+console.log(pikachu);

@@ -54,13 +54,13 @@
 
 .fire {
   animation: fire;
-  animation-duration: 0.1s;
+  animation-duration: 0.25s;
   animation-iteration-count: 5;
 }
 
 .electric {
   animation: electric;
-  animation-duration: 0.1s;
+  animation-duration: 0.25s;
   animation-iteration-count: 5;
 }
 
