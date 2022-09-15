@@ -632,6 +632,40 @@ let newUserPokemon = function () {
       )}/${user[currentUP].health}`;
       resetMenu();
       break;
+    case 4:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      resetMenu();
+      break;
+    case 5:
+      userPokemonName.textContent = user[currentUP].name;
+      document.querySelector("#user-pokemon img").src = user[currentUP].sprite;
+
+      document.querySelector("#user-actual").style.width =
+        200 * user[currentUP].percentWidth + "px";
+      if (user[currentUP].percentWidth < 0.25) {
+        document.querySelector("#user-actual").style.backgroundColor = "red";
+      } else {
+        document.querySelector("#user-actual").style.backgroundColor =
+          "lightgreen";
+      }
+      currentHealthNum.textContent = `${Math.floor(
+        user[currentUP].currentHealth
+      )}/${user[currentUP].health}`;
+      resetMenu();
+      break;
   }
   if (turnCounter === 7) {
     turnCounter = 1;
@@ -690,8 +724,6 @@ let newCpuPokemon = function () {
         document.querySelector("#cpu-actual").style.backgroundColor =
           "lightgreen";
       }
-      document.querySelector("#cpu-pokemon img").style.width = "100px";
-      document.querySelector("#cpu-pokemon img").style.height = "100px";
 
       break;
     case 2:
@@ -716,7 +748,7 @@ let newCpuPokemon = function () {
       }
 
       break;
-    case 5:
+    case 4:
       setTimeout(sendOutdefText, 3000);
       setTimeout(sendOutCpu, 4000);
       if (cpu[currentCP].percentWidth < 0.25) {
@@ -750,8 +782,7 @@ let cpuPokemonName = document.querySelector("#cpu-name");
 let sendOutCpu = function () {
   if (currentCP === 0) {
     cpuPokemonName.textContent = cpu[currentCP].name;
-    document.querySelector("#cpu-pokemon img").src =
-      "https://img.pokemondb.net/sprites/emerald/normal/blaziken.png";
+    document.querySelector("#cpu-pokemon img").src = cpu[0].sprite;
 
     document.querySelector("#cpu-actual").style.width =
       200 * cpu[currentCP].percentWidth + "px";
@@ -762,7 +793,7 @@ let sendOutCpu = function () {
     cpuPokemonName.textContent = cpu[currentCP].name;
     console.log("tis me");
 
-    document.querySelector("#cpu-pokemon img").src = frosslass.sprite;
+    document.querySelector("#cpu-pokemon img").src = cpu[1].sprite;
 
     document.querySelector("#cpu-actual").style.width =
       200 * cpu[currentCP].percentWidth + "px";
@@ -771,8 +802,7 @@ let sendOutCpu = function () {
     turnCounter = 0;
   } else if (currentCP === 2) {
     cpuPokemonName.textContent = cpu[currentCP].name;
-    document.querySelector("#cpu-pokemon img").src =
-      "https://img.pokemondb.net/sprites/firered-leafgreen/normal/venusaur.png";
+    document.querySelector("#cpu-pokemon img").src = cpu[2].sprite;
 
     document.querySelector("#cpu-actual").style.width =
       200 * cpu[currentCP].percentWidth + "px";
@@ -781,8 +811,25 @@ let sendOutCpu = function () {
     turnCounter = 0;
   } else if (currentCP === 3) {
     cpuPokemonName.textContent = cpu[currentCP].name;
-    document.querySelector("#cpu-pokemon img").src =
-      "https://img.pokemondb.net/sprites/firered-leafgreen/normal/dragonite.png";
+    document.querySelector("#cpu-pokemon img").src = cpu[3].sprite;
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  } else if (currentCP === 4) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    document.querySelector("#cpu-pokemon img").src = cpu[4].sprite;
+
+    document.querySelector("#cpu-actual").style.width =
+      200 * cpu[currentCP].percentWidth + "px";
+
+    setTimeout(resetMenu, 2000);
+    turnCounter = 0;
+  } else if (currentCP === 5) {
+    cpuPokemonName.textContent = cpu[currentCP].name;
+    document.querySelector("#cpu-pokemon img").src = cpu[5].sprite;
 
     document.querySelector("#cpu-actual").style.width =
       200 * cpu[currentCP].percentWidth + "px";
@@ -930,7 +977,7 @@ let moves = {
     turnCount === 0
       ? calculate.damageCalc(
           user[currentUP].name,
-          "WaterPulse",
+          "Water Pulse",
           60,
           100,
           user[currentUP].type,
@@ -941,7 +988,7 @@ let moves = {
         )
       : calculate.damageCalc(
           cpu[currentCP].name,
-          "WaterPulse",
+          "Water Pulse",
           60,
           100,
           cpu[currentCP].type,
@@ -1257,6 +1304,107 @@ let moves = {
           user[currentUP].defense
         );
   },
+  shadowBall: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Shadow Ball",
+          80,
+          100,
+          user[currentUP].type,
+          "Ghost",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Shadow Ball",
+          80,
+          100,
+          cpu[currentCP].type,
+          "Ghost",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+
+  gigaDrain: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Giga Drain",
+          75,
+          100,
+          user[currentUP].type,
+          "Grass",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Giga Drain",
+          75,
+          100,
+          cpu[currentCP].type,
+          "Grass",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+  frenzyPlant: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Frenzy Plant",
+          150,
+          90,
+          user[currentUP].type,
+          "Grass",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Frenzy Plant",
+          150,
+          90,
+          cpu[currentCP].type,
+          "Grass",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
+  sludgeBomb: function () {
+    turnCount === 0
+      ? calculate.damageCalc(
+          user[currentUP].name,
+          "Sludge Bomb",
+          90,
+          100,
+          user[currentUP].type,
+          "Poison",
+          cpu[currentCP].type,
+          user[currentUP].specialAttack,
+          cpu[currentCP].specialDefense
+        )
+      : calculate.damageCalc(
+          cpu[currentCP].name,
+          "Sludge Bomb",
+          90,
+          100,
+          cpu[currentCP].type,
+          "Poison",
+          user[currentUP].type,
+          cpu[currentCP].specialAttack,
+          user[currentUP].specialDefense
+        );
+  },
 };
 
 //Pokemon
@@ -1467,22 +1615,123 @@ let salamence = new Pokemon(
   328
 );
 
-let user = [
-  pikachu,
-  lapras,
-  snorlax,
-  charizard,
-  pokemon.charizard,
-  pokemon.blastoise,
-];
-let cpu = [
-  shinyCharizard,
-  frosslass,
-  pokemon.frosslass,
-  pokemon.suicune,
-  pokemon.salamence,
-  pokemon.aegislash,
-];
+let suicune = new Pokemon(
+  "Suicune",
+  "https://img.pokemondb.net/sprites/black-white/anim/shiny/suicune.gif",
+  ["Water", "Normal"],
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  404,
+  404,
+  404,
+  1,
+  273,
+  361,
+  306,
+  361,
+  295
+);
+
+let kyurem = new Pokemon(
+  "Kyurem",
+  "https://img.pokemondb.net/sprites/black-white/anim/shiny/kyurem.gif",
+  ["Dragon", "Ice"],
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  454,
+  454,
+  454,
+  1,
+  394,
+  306,
+  394,
+  306,
+  317
+);
+
+let venusaur = new Pokemon(
+  "Venusaur",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/venusaur.gif",
+  ["Grass", "Poison"],
+  "Frenzy Plant",
+  moves.frenzyPlamt,
+  "Giga Drain",
+  moves.gigaDrain,
+  "Sludge Bomb",
+  moves.sludgeBomb,
+  "Earthquake",
+  moves.earthquake,
+  364,
+  364,
+  364,
+  1,
+  289,
+  291,
+  328,
+  328,
+  284
+);
+
+let blastoise = new Pokemon(
+  "Blastoise",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/blastoise.gif",
+  ["Water", "Normal"],
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  "Giga Impact",
+  moves.gigaImpact,
+  "Dragon Pulse",
+  moves.dragonPulse,
+  362,
+  362,
+  362,
+  1,
+  291,
+  328,
+  295,
+  339,
+  280
+);
+
+let nidoking = new Pokemon(
+  "Nidoking",
+  "https://img.pokemondb.net/sprites/black-white/anim/normal/nidoking.gif",
+  ["Poison", "Ground"],
+  "Water Pulse",
+  moves.waterPulse,
+  "Ice Beam",
+  moves.iceBeam,
+  "Earthquake",
+  moves.earthquake,
+  "Sludge Bomb",
+  moves.sludgeBomb,
+  366,
+  366,
+  366,
+  1,
+  333,
+  278,
+  295,
+  273,
+  295
+);
+
+let user = [pikachu, lapras, snorlax, charizard, venusaur, blastoise];
+let cpu = [shinyCharizard, frosslass, salamence, suicune, kyurem, nidoking];
 
 let turn = [user, cpu];
 
