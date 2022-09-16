@@ -1,9 +1,24 @@
 let startButton = document.querySelector("#start");
 
 startButton.addEventListener("click", function () {
+  document.querySelector("#action-box div").style.flexBasis = `100%`;
+  document.querySelector("#action-box div").style.marginTop = `5px`;
+  slot1.textContent =
+    "Aegon Targaryen, King of the North, challenges you to a battle.";
+  slot2.textContent = "";
+  slot3.textContent = "";
+  slot4.textContent = "";
   document.querySelector("#start-screen").style.display = "none";
   document.querySelector("#game").style.display = "block";
+  setTimeout(newUserPokemon, 3000);
+  setTimeout(newCpuPokemon, 500);
+  setTimeout(sendOutPoke, 3000);
 });
+
+let sendOutPoke = function () {
+  document.querySelector(".user-stats").style.display = "block";
+  document.querySelector(".cpu-stats").style.display = "block";
+};
 
 //VARIABLES
 let mainTree = 0;
@@ -163,6 +178,8 @@ let notSuper = function () {
 //CALCULATIONS
 let calculate = {
   damageCalc: function (N, MN, power, acc, attT, mT, defT, attack, defense) {
+    document.querySelector("#action-box div").style.flexBasis = `100%`;
+    document.querySelector("#action-box div").style.marginTop = `10px`;
     effectiveness = 1;
     console.log(`${N} used ${MN}`);
     slot1.textContent = `${N} used ${MN}`;
@@ -214,6 +231,11 @@ let calculate = {
           fire1();
           setTimeout(fire2, 1000);
           break;
+        case "FireFire":
+          effectiveness = effectiveness * 0.5;
+          fire1();
+          setTimeout(fire2, 1000);
+          break;
         case "FireIce":
           effectiveness = effectiveness * 2;
           fire1();
@@ -224,18 +246,23 @@ let calculate = {
           fire1();
           setTimeout(fire2, 1000);
           break;
-        case "FireNormal":
-          effectiveness = effectiveness * 1;
+        case "FireBug":
+          effectiveness = effectiveness * 2;
           fire1();
           setTimeout(fire2, 1000);
           break;
-        case "FireFire":
+        case "FireRock":
           effectiveness = effectiveness * 0.5;
           fire1();
           setTimeout(fire2, 1000);
           break;
-        case "FireFlying":
-          effectiveness = effectiveness * 1;
+        case "FireDragon":
+          effectiveness = effectiveness * 0.5;
+          fire1();
+          setTimeout(fire2, 1000);
+          break;
+        case "FireSteel":
+          effectiveness = effectiveness * 2;
           fire1();
           setTimeout(fire2, 1000);
           break;
@@ -251,6 +278,21 @@ let calculate = {
           break;
         case "ElectricWater":
           effectiveness = effectiveness * 2;
+          electric1();
+          setTimeout(electric2, 1000);
+          break;
+        case "ElectricGround":
+          effectiveness = effectiveness * 0;
+          electric1();
+          setTimeout(electric2, 1000);
+          break;
+        case "ElectricDragon":
+          effectiveness = effectiveness * 0.5;
+          electric1();
+          setTimeout(electric2, 1000);
+          break;
+        case "ElectricElectric":
+          effectiveness = effectiveness * 0.5;
           electric1();
           setTimeout(electric2, 1000);
           break;
@@ -273,14 +315,36 @@ let calculate = {
           break;
         case "WaterFire":
           effectiveness = effectiveness * 2;
+          water1();
+          setTimeout(water2, 1000);
+          break;
+        case "WaterWater":
+          effectiveness = effectiveness * 0.5;
+          water1();
+          setTimeout(water2, 1000);
+          break;
+        case "WaterGrass":
+          effectiveness = effectiveness * 0.5;
+          water1();
+          setTimeout(water2, 1000);
           break;
         case "WaterElectric":
           effectiveness = effectiveness * 1;
           water1();
           setTimeout(water2, 1000);
           break;
-        case "WaterNormal":
-          effectiveness = effectiveness * 1;
+        case "WaterGround":
+          effectiveness = effectiveness * 2;
+          water1();
+          setTimeout(water2, 1000);
+          break;
+        case "WaterRock":
+          effectiveness = effectiveness * 2;
+          water1();
+          setTimeout(water2, 1000);
+          break;
+        case "WaterDragon":
+          effectiveness = effectiveness * 0.5;
           water1();
           setTimeout(water2, 1000);
           break;
@@ -472,7 +536,13 @@ let faintedUser = function () {
   delete user[currentUP];
   console.log("me");
 
-  if (user[0] === undefined && user[1] === undefined) {
+  if (
+    user[0] === undefined &&
+    user[1] === undefined &&
+    user[2] === undefined &&
+    (user[3] === undefineduser[4]) === undefined &&
+    user[5] === undefined
+  ) {
     console.log("YOU LOSE");
   } else {
     setTimeout(pickNewPokemon, 2000);
@@ -492,37 +562,50 @@ let pickNewPokemon = function () {
   slot2.textContent = ``;
   slot3.textContent = ``;
   slot4.textContent = ``;
-  document.querySelector("#action-box div").style.marginTop = `0px`;
-  document.querySelector("#action-box div").style.flexBasis = `50%`;
+  document.querySelector("#action-box div").style.flexBasis = `100%`;
+  document.querySelector("#action-box div").style.marginTop = `15px`;
+  document.querySelector("#pokemon1").style.color = "purple";
   if (user[0] === undefined) {
     pokemon1.textContent = "Fainted";
+    document.querySelector("#pokemon1").style.color = "red";
   } else {
     pokemon1.textContent = user[0].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
   if (user[1] === undefined) {
+    document.querySelector("#pokemon1").style.color = "red";
     pokemon2.textContent = "Fainted";
   } else {
     pokemon2.textContent = user[1].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
   if (user[2] === undefined) {
     pokemon3.textContent = "Fainted";
+    document.querySelector("#pokemon1").style.color = "red";
   } else {
     pokemon3.textContent = user[2].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
   if (user[3] === undefined) {
     pokemon4.textContent = "Fainted";
+    document.querySelector("#pokemon1").style.color = "red";
   } else {
     pokemon4.textContent = user[3].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
   if (user[4] === undefined) {
     pokemon5.textContent = "Fainted";
+    document.querySelector("#pokemon1").style.color = "red";
   } else {
     pokemon5.textContent = user[4].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
   if (user[5] === undefined) {
     pokemon6.textContent = "Fainted";
+    document.querySelector("#pokemon1").style.color = "red";
   } else {
     pokemon6.textContent = user[5].name;
+    document.querySelector("#pokemon1").style.color = "green";
   }
 };
 
@@ -847,10 +930,12 @@ let sendOutCpu = function () {
 };
 
 let sendOutdefText = function () {
-  slot1.textContent = `Chad sent out ${cpu[currentCP].name}`;
+  slot1.textContent = `Aegon sent out ${cpu[currentCP].name}`;
   slot2.textContent = "";
   slot3.textContent = "";
   slot4.textContent = "";
+  document.querySelector("#action-box div").style.flexBasis = `100%`;
+  document.querySelector("#action-box div").style.marginTop = `5px`;
 };
 
 //MOVES
@@ -1463,7 +1548,7 @@ class Pokemon {
 
 let pikachu = new Pokemon(
   "Pikachu",
-  "",
+  "https://img.pokemondb.net/sprites/black-white/anim/back-normal/pikachu.gif",
   ["Electric", "Normal"],
   "Volt Tackle",
   moves.voltTackle,

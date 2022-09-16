@@ -138,6 +138,7 @@
   flex-wrap: wrap;
   font-size: 40px;
   padding: 10px;
+  background-color: darkgray;
 }
 
 #action-box div {
@@ -154,9 +155,12 @@
   position: absolute;
   right: -300px;
   top: -3px;
-  background-color: white;
+  background-color: darkgray;
   font-size: 30px;
   padding: 20px;
+  padding-left: 30px;
+  font-size: 40px;
+  color: green;
 }
 
 #title {
@@ -178,7 +182,7 @@
   position: absolute;
   right: -300px;
   top: 322px;
-  background-color: white;
+  background-color: darkgray;
   text-align: center;
   padding: 30px;
   font-size: 50px;
@@ -193,6 +197,7 @@
   top: 225px;
   left: 280px;
   background-color: lightblue;
+  display: none;
 }
 
 #user-max {
@@ -220,10 +225,10 @@
 
 #user-pokemon img {
   position: absolute;
-  top: 165px;
+  top: 150px;
   left: 40px;
-  height: 175px;
-  width: 175px;
+  height: 185px;
+  width: 185px;
   z-index: 0;
 }
 
@@ -241,6 +246,7 @@
   top: 20px;
   right: 300px;
   background-color: lightcoral;
+  display: none;
 }
 
 #cpu-name {
