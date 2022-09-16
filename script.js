@@ -1,3 +1,10 @@
+let startButton = document.querySelector("#start");
+
+startButton.addEventListener("click", function () {
+  document.querySelector("#start-screen").style.display = "none";
+  document.querySelector("#game").style.display = "block";
+});
+
 //VARIABLES
 let mainTree = 0;
 let moveSaver = 0;
